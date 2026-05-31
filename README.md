@@ -1,2 +1,2 @@
 # W8Lab
-Lab 6: Asynchronous JS + APIs
+Lab 7: Deploy GroceryList web app using Cloudflare
