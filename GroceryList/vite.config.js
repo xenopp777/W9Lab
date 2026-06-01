@@ -16,6 +16,7 @@ export default defineConfig(({ mode }) => {
           rewrite: (path) => path.replace(/^\/fdc/, ''),
         },
       },
+    plugins: [],
     },
   };
 });
