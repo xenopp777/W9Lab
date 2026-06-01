@@ -1,9 +1,9 @@
 export async function onRequest(context) {
   const { request, env } = context;
 
-  // Strip the /api/web-service prefix and append API key as query param
+  // Strip the /api/api.nal.usda.gov prefix and append API key as query param
   const url = new URL(request.url);
-  const targetUrl = new URL(`https://api.nal.usda.gov${url.pathname.replace('/api/web-service', '')}`);
+  const targetUrl = new URL(`https://api.nal.usda.gov${url.pathname.replace('/api/api.nal.usda.gov', '')}`);
   targetUrl.searchParams.append('api_key', env.VITE_USDA_API_KEY);
 
   try {
