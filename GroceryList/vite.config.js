@@ -1,6 +1,6 @@
-import { defineConfig, loadEnv } from 'vite';
+const { defineConfig, loadEnv } = require('vite');
 
-export default defineConfig(({ mode }) => {
+module.exports = defineConfig(({ mode }) => {
   const env = loadEnv(mode, process.cwd(), '');
 
   return {
