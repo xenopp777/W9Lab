@@ -4,6 +4,7 @@ export default defineConfig(({ mode }) => {
   const env = loadEnv(mode, process.cwd(), '');
 
   return {
+    plugins: [],
     base: './',
     build: {
       sourcemap: true,
@@ -16,7 +17,6 @@ export default defineConfig(({ mode }) => {
           rewrite: (path) => path.replace(/^\/fdc/, ''),
         },
       },
-    plugins: [],
     },
   };
 });
