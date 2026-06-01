@@ -24,40 +24,56 @@ export class GroceryView {
     this.form.reset();
   }
 
-  // Renders a nutrition score badge based on the score grade
-  getNutriScoreBadgeClass(nutriScore) {
-    const scoreMap = {
-      'A': 'bg-success',
-      'B': 'bg-info',
-      'C': 'bg-warning',
-      'D': 'bg-danger',
-      'E': 'bg-danger'
-    };
-    return scoreMap[nutriScore] || 'bg-secondary';
+  // Renders the data source badge
+  getDataSourceBadge(nutriLabel) {
+    return nutriLabel.includes('USDA') 
+      ? html`<span class="badge bg-info">🔬 USDA Food Data</span>` 
+      : html`<span class="badge bg-secondary">📊 Food Data</span>`;
   }
 
-  // Creates a template for nutrition info display
+  // Renders individual nutrition values with consistent styling
+  nutritionItemTemplate(label, value) {
+    const valueStr = String(value);
+    const isNA = valueStr === 'N/A' || valueStr.includes('N/A');
+    return html`
+      <div class="col-md-6 mb-2">
+        <small class="d-block text-muted">
+          <strong>${label}:</strong> 
+          <span class="${isNA ? 'text-secondary' : 'text-dark'}">${valueStr}</span>
+        </small>
+      </div>
+    `;
+  }
+
+  // Creates a template for nutrition info display with USDA API structure
   nutritionTemplate(productData) {
     if (!productData) {
-      return html`<small class="text-muted">No product data available</small>`;
+      return html`
+        <div class="product-info mt-2 p-2 bg-light rounded">
+          <small class="text-muted d-block">No product data available</small>
+        </div>
+      `;
     }
 
-    const { nutriScore, nutriLabel, nutrition, productName } = productData;
-    const badgeClass = this.getNutriScoreBadgeClass(nutriScore);
+    const { nutriLabel, nutrition, productName } = productData;
 
     return html`
-      <div class="product-info mt-2 p-2 bg-light rounded">
-        <div class="mb-2">
-          <span class="badge ${badgeClass} me-2">Nutri-Score: ${nutriScore}</span>
-          <small class="text-muted">${nutriLabel}</small>
+      <div class="product-info mt-2 p-3 bg-light rounded border-start border-info">
+        <div class="mb-3">
+          ${this.getDataSourceBadge(nutriLabel)}
+          <small class="d-block text-muted mt-1">${nutriLabel}</small>
         </div>
-        <small class="d-block text-muted mb-1"><strong>Product:</strong> ${productName}</small>
-        <small class="d-block text-muted">
-          <strong>Per 100g:</strong> Energy: ${nutrition.energy} kcal | 
-          Protein: ${nutrition.protein}g | 
-          Carbs: ${nutrition.carbs}g | 
-          Fat: ${nutrition.fat}g
+        
+        <small class="d-block text-muted mb-2">
+          <strong>USDA Product:</strong> <em>${productName}</em>
         </small>
+        
+        <div class="row">
+          ${this.nutritionItemTemplate('Energy', nutrition.energy)}
+          ${this.nutritionItemTemplate('Protein', nutrition.protein)}
+          ${this.nutritionItemTemplate('Carbohydrates', nutrition.carbs)}
+          ${this.nutritionItemTemplate('Total Fat', nutrition.fat)}
+        </div>
       </div>
     `;
   }

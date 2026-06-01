@@ -1,6 +1,6 @@
 // Edited by Zoie D 4/23/26
 
-import { searchFoodFacts } from './FoodFacts.js';
+import { searchFoodFacts } from './FoodData.js';
 
 /* ========== Controller ========== */
 
