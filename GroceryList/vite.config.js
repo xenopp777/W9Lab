@@ -1,15 +1,15 @@
 module.exports = async ({ mode } = {}) => {
-  const [{ defineConfig, loadEnv }, { default: cloudflarePlugin }] = await Promise.all([
+  const [{ defineConfig, loadEnv }, cloudflareModule] = await Promise.all([
     import('vite'),
     import('@cloudflare/vite-plugin'),
   ]);
 
   const env = loadEnv(mode, process.cwd(), '');
+  const cloudflarePlugin = cloudflareModule.cloudflare;
 
   return defineConfig({
     plugins: [
       cloudflarePlugin({
-        // add Cloudflare plugin options here if needed
       }),
     ],
     base: './',
